@@ -79,8 +79,7 @@ def BFS(state: tuple, goal: tuple) -> None:
     
     return None
 
-def printMember(step: tuple) -> str:
-    sides = ["left", "right"]
+def printPos(step: tuple) -> str:
     farmer, fox, goose, grain = step
     left_side = []
     right_side = []
@@ -91,8 +90,8 @@ def printMember(step: tuple) -> str:
         else: 
             right_side.append(name)
 
-    left = ", ".join(left_side) if left_side else "None"
-    right = ", ".join(right_side) if right_side else "None"
+    left = ", ".join(left_side) if left_side else "Empty"
+    right = ", ".join(right_side) if right_side else "Empty"
 
     return f"Left Bank: {left} | Right Bank: {right}"
 
@@ -109,6 +108,6 @@ if __name__ == "__main__":
     solution = BFS(state, goal)
     if solution:
         for step in solution:
-            print(step, printMember(step))
+            print(step, "->", printPos(step))
     else: 
         print("No solution exists")
