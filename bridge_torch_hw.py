@@ -26,7 +26,7 @@ d=4
 """ Define the Node class"""
 
 class Node:
-    def __init__(self,state,parent,action,cost):
+    def __init__(self,state: list, parent, action: list, cost: int):
         self.state = state   # a state is a list of four values, each either east or west
         self.parent = parent # this is the pointer to the previous state
         self.action = action # what action is performed on parent to get this state
@@ -36,15 +36,21 @@ class Node:
 
 #an action is a list of items to move.  
 def actionList(state): 
+
     currentSide = state[torch]
-    mylist = [[]] 
+    mylist = [] 
+
     for item in [a,b,c]:
+
         if state[item] == currentSide:
             mylist.append([torch,item])
+
             for item2 in range(item+1, d+1):
+
               if state[item2] == currentSide:
                 mylist.append([torch, item, item2])
-    return(mylist)
+
+    return mylist
 
 """ Check to see whether or not the given state is valid. """
 
@@ -53,21 +59,34 @@ def isValid(node):
 
 """ Given a current state and an action, determine the next state """
 
-def makeNewState(currentState,action):
+def makeNewState(currentState, action):
     if action == []: return currentState
     newState = []
-    
-    # TODO
+    direction = currentState[torch]
+
+    for state in currentState:
+        newState.append(state)
+
+    if direction == west:
+      newDirection = east
+    else:
+      newDirection = west
+
+    newState[torch] = newDirection 
+    for person in action: 
+        newState[person] = newDirection
     
     return newState
 
 """get action cost"""
 def getActionCost(action):
   # gets the action that costs the most and returns the cost associated with that
+    actionCosts = {1: 1, 2: 2, 3: 5, 4: 8}
+    people = action[1:] 
 
-    # TODO
+    if people == []: return 0
 
-    return max
+    return max(actionCosts[person] for person in people)
 
 """ findAnswer is the main algorithm for searching the space for a solution
     Returns a tuple of final node and number of nodes visited.
@@ -78,22 +97,38 @@ def findAnswer():
     initial = [west,west,west,west,west]
     goal = [east,east,east,east,east]
     initialNode = Node(initial,None,None,0)
+
     openNodes = [initialNode]
     exploredStates = []
+
+    while openNodes:
+        currentNode = openNodes.pop(0)
+        
+        exploredStates.append(currentNode.state)
+
+        if currentNode.state == goal:
+            
+            return currentNode, len(exploredStates)
+
+        actions = actionList(currentNode.state)
+        for action in actions:
+            newState = makeNewState(currentNode.state, action)
+            newCost = currentNode.cost + getActionCost(action)
+            newNode = Node(newState, currentNode, action, newCost)
+
+            if isValid(newNode) and newState not in exploredStates:
+                openNodes.append(newNode)
     
-    # TODO
- 
-    return(None)
+
+    return None
 
 
 """get items in action"""
 def getItems(action):
   items = ["Torch", "Person A", "Person B", "Person C", "Person D"]
 
-  #TODO
-  
+  # return [items[i] for i in action]
   return items[action]
-
 
 """ Print the path from the initial node to the given node """
 
@@ -112,22 +147,52 @@ def printAnswer(node):
           if i < length-1:
             message += ", "
           i+=1
-        if node.state[0]==east:message = message + " west to east"
+        if node.state[0]== east: message = message + " west to east"
         else: message = message + " east to west"
         print(node.action,node.state, message)
 
 
         
     else: #We have recursed back to the initial state
+        print(node.state, "Everyone is on the west bank.")
+
+
+    if node.state == [east,east,east,east,east]:
         print(node.state, "Everyone is on the east bank.")
 
 """ Main program. Find the answer and print the answer and the analysis
-    TODO: complete the solution
+     complete the solution
 """
 
+def test1():
+  #testing MakeNewState
+    currentState = [west, west, west, west, west]
+    action = [torch, b, c]
+    print(makeNewState(currentState, action))
 
-def main():
+def test2():
+  #testing actionList
+    currentState = [west, west, west, west, west]
+    print(actionList(currentState))
+    return actionList(currentState)
+
+def test3():
+  actions = [[torch, a], [torch, b], [torch, c], [torch, d], [torch, a, b], [torch, a, c], [torch, a, d], [torch, b, c], [torch, b, d], [torch, c, d]]
+  for action in actions:
+    print(f"Action: {action}, Cost: {getActionCost(action)}")
+
+def test4():
+  #testing getItems
+  actions = test2()
+  for action in actions:
+    print(getItems(action))
+
+if __name__ == "__main__":
     finalNode,numExploredStates = findAnswer()
     printAnswer(finalNode)
     print("Number of minutes spent = ",finalNode.cost)
     print("Number of explored states = ",numExploredStates)
+
+    #test4()
+
+    
