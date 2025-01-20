@@ -132,7 +132,7 @@ if __name__ == "__main__":
     path = bfsSolve(node)
     if path:
         for node in path:
-            print(f"State : {node.state}, Action: {node.actions}")
+            print(f"State : {node.state}, Action: {node.actions}, State Amount: {node.cost}")
     else:
             print("No solution found")
 
@@ -143,6 +143,6 @@ if __name__ == "__main__":
     path2 = dfsSolve(node2)
     if path2:
         for node in path2:
-            print(f"State : {node.state}, Action: {node.actions}")
+            print(f"State : {node.state}, Action: {node.actions}, State Amount: {node.cost}")
     else:
         print("No solution found")
