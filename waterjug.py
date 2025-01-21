@@ -108,9 +108,9 @@ def dfsSolve(node):
 node = Node((0, 8, 0), None, None, 0)
 
 def test1():
-    print(is_valid((-1, 0, 0)))  # False
-    print(is_valid((0, 0, 1)))  # True
-    print(is_valid((-1, 0, 4)))  # False
+    print(node.is_valid((-1, 0, 0)))  # False
+    print(node.is_valid((0, 0, 1)))  # True
+    print(node.is_valid((-1, 0, 4)))  # False
 
 def test2():
     # print(generate_states((12, 0, 0)))
