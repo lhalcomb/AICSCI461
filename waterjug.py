@@ -25,6 +25,7 @@ class Node:
 
     def is_goal(self):
         """Check to see if we have reached the goal state"""
+    
         return 1 in self.state
 
     def is_valid(self, state):
@@ -124,7 +125,7 @@ def test2():
 
 if __name__ == "__main__":
    
-
+    test2()
     print("BFS Solution")
     initial_state = (0, 0, 0)
     node = Node(initial_state, None, None, 0)
