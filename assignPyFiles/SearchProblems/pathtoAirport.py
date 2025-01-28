@@ -170,10 +170,6 @@ if __name__ == "__main__":
     ("20", "21"): 2.1, 
 }
 
-    
-
-    coords = createPlaceCoordinates(width, height)
-    #print(coords)
     nodes = generateNodes(coords)
 
     start_name = "1"
@@ -191,6 +187,7 @@ if __name__ == "__main__":
     while running:
         screen.fill(WHITE)
         drawNodes(screen, nodes)
+        
         if path:
             drawPath(screen, path)
 
