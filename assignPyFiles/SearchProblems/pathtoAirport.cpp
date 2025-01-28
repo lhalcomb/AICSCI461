@@ -5,13 +5,14 @@
 #include <climits>
 #include <string>
 #include <unordered_map>
+#include <cstdint>
 
 using namespace std;
 
 struct Node {
     string name;
     vector<pair<Node*, int>> neighbors; // pair<node, distance> neighbors to the specified node
-    double distance = INT64_MAX; //distance between each node and it's neighbor
+    double distance = INT_MAX; //distance between each node and it's neighbor
     Node* prev = nullptr; //pointer to the previous node
 
 };
@@ -50,6 +51,32 @@ int main(){
     };
 
     unordered_map<string, Node> nodes;
+
+    //populate the nodes
+    for (const auto& connections: nodeConnections){
+        string from = connections.first.first;
+        string to = connections.first.second;
+        double distance = connections.second;
+
+        if (nodes.find(from) == nodes.end()){ // if find() == end() then the node is not in the map
+            nodes[from] = Node{from}; // nodes[from] adds node to the map, Node{from} initializes the node from pointer above
+        }
+        if (nodes.find(to) == nodes.end()){
+            nodes[to] = Node{to};
+        }
+
+        nodes[from].neighbors.emplace_back(&nodes[to], distance); // add the from neighbor to the nodes map 
+    }; 
+
+    //print the graph 
+    for (const auto& node: nodes){
+        cout << "Node: " <<node.first << endl;
+        for (const auto& neighbor: node.second.neighbors){
+            cout << "Neighbor: " << neighbor.first->name << " Distance: " << neighbor.second << endl;
+        }
+    };
+
+
     
 };
 
