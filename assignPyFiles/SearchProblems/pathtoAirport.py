@@ -7,6 +7,7 @@ the total cost of the path
 import pygame 
 import random, math, heapq
 
+
 # Pygame setup
 pygame.init()
 width, height = 1080, 1000
@@ -125,10 +126,15 @@ def drawPath(screen, path):
             pygame.draw.line(screen, RED, path[i].position, path[i+1].position, 2)
 
 if __name__ == "__main__":
-    coords =  coords = [(50, 100), (200, 100), (200, 200), (350, 400), (400, 200), (500, 300), 
-              (600, 200), (700, 300), (700, 100), (800, 100), (800, 200), (900, 300), 
-              (1000, 200), (1000, 100), (200, 400), (300, 500), (400, 600), (450, 600), 
-              (750, 800), (800, 900), (750, 750)]
+    coords = []
+    x_shift, y_shift = 200, 200
+
+    for row in range(5):
+        for col in range(5):
+            if len(coords) == 21:
+                break
+            coords.append((x_shift * col + 100 , y_shift * row + 100))
+    
 
     nodeConnections = {
     ("1", "10"): 0.7, 
@@ -179,17 +185,25 @@ if __name__ == "__main__":
     start_node = nodes[start_name]  # Get the start node
     end_node = nodes[end_name]  # Get the end node
 
-    print(f"Start Node: {start_node.name}, Position: {start_node.position}")
-    print(f"End Node: {end_node.name}, Position: {end_node.position}")
+    for i in range(13):
+        path1 = aStar(start_node, end_node)
+        if path1:
+            print(f"Run: {i+ 1}, Shortest Path: {[node.name for node in path1]}")
+            print(f"Total Cost: {path1[-1].cost}")
+        else:
+            print("No path found")
 
-    path = aStar(start_node, end_node)
+    #path = aStar(start_node, end_node)
+
+    
+    
     running = True
     while running:
         screen.fill(WHITE)
         drawNodes(screen, nodes)
-        
-        if path:
-            drawPath(screen, path)
+
+        # if path:
+        #     drawPath(screen, path)
 
     
         pygame.display.flip()
