@@ -55,24 +55,6 @@ class Node:
         x2, y2 = goal.position  # Access position from Node object
         return abs(x1 - x2) + abs(y1 - y2)
 
-def ccw(a, b, c):
-    """Check if three points are counter-clockwise"""
-    return (c[1] - a[1]) * (b[0] - a[0]) > (b[1] - a[1]) * (c[0] - a[0])
-
-def doIntersect(p1, q1, p2, q2):
-    """Return True if line segments (p1, q1) and (p2, q2) intersect"""
-    return ccw(p1, p2, q2) != ccw(q1, p2, q2) and ccw(p1, q1, p2) != ccw(p1, q1, q2)
-
-def createPlaceCoordinates(width: int, height: int, num_nodes=21, min_distance = 100) -> list[tuple]:
-    coords = []
-    while len(coords) < num_nodes:
-        x = random.randint(min_distance, width - min_distance)
-        y = random.randint(min_distance, height - min_distance)
-
-        if all(math.dist((x, y), other) >= min_distance for other in coords):
-            coords.append((x, y))
-
-    return coords
 
 def generateNodes(coords: list[tuple]) -> dict:
     nodes = {}  # Dictionary to store nodes by name
@@ -184,7 +166,10 @@ def drawPath(screen, path):
             pygame.draw.line(screen, RED, path[i].position, path[i+1].position, 2)
 
 if __name__ == "__main__":
-    coords = createPlaceCoordinates(width, height)
+    coords =  coords = [(50, 100), (200, 100), (200, 200), (350, 400), (400, 200), (500, 300), 
+              (600, 200), (700, 300), (700, 100), (800, 100), (800, 200), (900, 300), 
+              (1000, 200), (1000, 100), (200, 400), (300, 500), (400, 600), (450, 600), 
+              (750, 800), (800, 900), (750, 750)]
     #print(coords)
     nodes = generateNodes(coords)
 
