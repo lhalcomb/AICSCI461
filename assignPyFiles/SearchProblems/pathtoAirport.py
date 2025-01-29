@@ -185,15 +185,15 @@ if __name__ == "__main__":
     start_node = nodes[start_name]  # Get the start node
     end_node = nodes[end_name]  # Get the end node
 
-    for i in range(13):
-        path1 = aStar(start_node, end_node)
-        if path1:
-            print(f"Run: {i+ 1}, Shortest Path: {[node.name for node in path1]}")
-            print(f"Total Cost: {path1[-1].cost}")
-        else:
-            print("No path found")
+    # for i in range(13):
+    #     path1 = aStar(start_node, end_node)
+    #     if path1:
+    #         print(f"Run: {i+ 1}, Shortest Path: {[node.name for node in path1]}")
+    #         print(f"Total Cost: {path1[-1].cost}")
+    #     else:
+    #         print("No path found")
 
-    #path = aStar(start_node, end_node)
+    path = aStar(start_node, end_node)
 
     
     
@@ -202,8 +202,8 @@ if __name__ == "__main__":
         screen.fill(WHITE)
         drawNodes(screen, nodes)
 
-        # if path:
-        #     drawPath(screen, path)
+        if path:
+            drawPath(screen, path)
 
     
         pygame.display.flip()
