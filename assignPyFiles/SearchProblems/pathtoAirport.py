@@ -117,7 +117,6 @@ def aStar(start: Node, end: Node):
                 neighbor.cost = temp_cost
                 neighbor.heuristic = temp_cost + neighbor.heuristicMan(end)  # f(n) = g(n) + h(n)
                 heapq.heappush(openPath, (neighbor.heuristic, neighbor))
-                
 
     return None  # No path found
 
