@@ -34,7 +34,7 @@ class Node:
         self.neighbors = []
     
     def drawCircle(self, screen, color):
-        pygame.draw.circle(screen, color, (self.position[0], self.position[1]), 20)
+        pygame.draw.circle(screen, color, (self.position[0], self.position[1]), 40)
 
     def drawLine(self, screen, color, neighbor):
         pygame.draw.line(screen, color, (self.position[0], self.position[1]), (neighbor.position[0], neighbor.position[1]), 2)
@@ -68,7 +68,7 @@ def generateNodes(coords: list[tuple]) -> dict:
         nodes[node1].addNeighbor(nodes[node2], cost)
         nodes[node2].addNeighbor(nodes[node1], cost)
 
-    return nodes  # Return a dictionary instead of a list
+    return nodes  # Return a dictionary of nodes
 
 def drawNodes(screen, nodes):
     font = pygame.font.SysFont(None, 24)  # Create a font object
