@@ -13,7 +13,8 @@ You can fill the jugs from the faucet, or from one another, or pour their conten
 The goal is to measure out (in a jug) exactly one gallon. 
 """
 
-CAPACITIES = (12, 8, 3)
+#CAPACITIES = (12, 8, 3)
+CAPACITIES = (57, 21)
 
 class Node:
     def __init__(self, state: tuple, parent: None, actions: None, cost: int):
@@ -26,7 +27,7 @@ class Node:
     def is_goal(self):
         """Check to see if we have reached the goal state"""
     
-        return 1 in self.state
+        return 3 in self.state
 
     def is_valid(self, state):
         """Check if the state is valid"""
@@ -41,7 +42,8 @@ class Node:
     def generate_states(self):
         # Generate all possible next states
         next_states = []
-        x, y, z = self.state
+        #x, y, z = self.state
+        x, y = self.state
         capacities = CAPACITIES
         #Fill a jug
         for i in range(len(self.state)): #initial = (0, 0, 0) capacities = (12, 8, 3)
@@ -125,9 +127,10 @@ def test2():
 
 if __name__ == "__main__":
    
-    test2()
+    #test2()
     print("BFS Solution")
-    initial_state = (0, 0, 0)
+    #initial_state = (0, 0, 0)
+    initial_state = (0,0)
     node = Node(initial_state, None, None, 0)
 
     path = bfsSolve(node)
