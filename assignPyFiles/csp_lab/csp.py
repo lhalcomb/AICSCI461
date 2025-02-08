@@ -2,6 +2,7 @@
 """
 A General Constraint Satisfaction Problem Solver
 @author: yks
+comment - WHO PUTS ALL OF THE FRICKING CLASSES FOR ONE PROJECT IN THE SAME FILE!! YOU'RE A MONSTER
 """
 class Variable:
     """
