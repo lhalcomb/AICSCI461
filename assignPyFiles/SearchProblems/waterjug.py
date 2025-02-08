@@ -68,6 +68,7 @@ class Node:
                     new_state[j] += transfer_amount
                     next_states.append((tuple(new_state), f"Pour from jug {i+1} to jug {j+1}"))
         return next_states
+    
 def reconstructPath(node):
     path = []
     while node:
