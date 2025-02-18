@@ -15,9 +15,26 @@ def forward_checking(state, verbose=False):
     if not basic:
         return False
 
-    # Add your forward checking logic here.
+    x = state.get_current_variable()
+    if x is None:
+        return True
     
-    raise NotImplementedError
+    x_value = x.get_assigned_value()
+    for constraint in state.get_constraints_by_name(x.get_name()):
+        y = state.get_variable_by_name(constraint.get_variable_j_name())
+        if y.is_assigned():
+            continue
+        for y_value in y.get_domain():
+            if not constraint.check(state, x_value, y_value):
+                y.reduce_domain(y_value)
+                if y.domain_size() == 0:
+                    return False
+    
+    return True
+
+
+    
+    
 
 # Now Implement forward checking + (constraint) propagation through
 # singleton domains.
