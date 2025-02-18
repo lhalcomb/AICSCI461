@@ -1,5 +1,6 @@
 #from classify import *
 import math
+from queue import Queue
 
 ##
 ## CSP lab.
@@ -43,14 +44,46 @@ def forward_checking_prop_singleton(state, verbose=False):
     fc_checker = forward_checking(state, verbose)
     if not fc_checker:
         return False
+    
+    # Now we will propagate through singleton domains.
+    singleton_domain_queue = Queue()
+    visited_variables = set()
 
-    # Add your propagate singleton logic here.
-    raise NotImplementedError
+    # Find variables with domains of size 1 and add them to the queue.
+    for var in state.get_all_variables():
+        if var.domain_size() == 1:
+            singleton_domain_queue.put(var)
+
+    while not singleton_domain_queue.empty():
+        var = singleton_domain_queue.get()
+        visited_variables.add(var.get_name())
+        x_value = var.get_assigned_value()
+
+        if x_value is None:
+            continue
+
+        for constraint in state.get_constraints_by_name(var.get_name()):
+            y = state.get_variable_by_name(constraint.get_variable_j_name())
+            if y.is_assigned() or y.get_name() in visited_variables:
+                continue
+            for y_value in y.get_domain():
+                if y_value is None:
+                    continue
+                if not constraint.check(state, x_value, y_value):
+                    y.reduce_domain(y_value)
+                    if y.domain_size() == 0:
+                        return False
+                    if y.domain_size() == 1 and y.get_name() not in visited_variables:
+                        singleton_domain_queue.put(y)
+
+    return True
+
 
 ## The code here are for the tester
 ## Do not change.
 from moose_csp import moose_csp_problem
 from map_coloring_csp import map_coloring_csp_problem
+
 
 def csp_solver_tree(problem, checker):
     problem_func = globals()[problem]
