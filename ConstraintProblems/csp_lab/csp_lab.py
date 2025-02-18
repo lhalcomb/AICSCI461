@@ -54,29 +54,7 @@ def forward_checking_prop_singleton(state, verbose=False):
         if var.domain_size() == 1:
             singleton_domain_queue.put(var)
 
-    while not singleton_domain_queue.empty():
-        var = singleton_domain_queue.get()
-        visited_variables.add(var.get_name())
-        x_value = var.get_assigned_value()
-
-        for constraint in state.get_constraints_by_name(var.get_name()):
-            y = state.get_variable_by_name(constraint.get_variable_j_name())
-            if y.is_assigned() or y.get_name() in visited_variables:
-                continue
-            for y_value in y.get_domain():
-                
-                print(f"Before Pruning: {y.get_name()} domain: {y.get_domain()}")
-                print(constraint.check(state, x_value, y_value))
-    
-                if not constraint.check(state, x_value, y_value):
-                    y.reduce_domain(y_value)
-                    print(f"After Pruning: {y.get_name()} domain: {y.get_domain()}")
-                    if y.domain_size() == 0:
-                        return False
-                    if y.domain_size() == 1 and y.get_name() not in visited_variables:
-                        singleton_domain_queue.put(y)
-
-    return True
+   
 
 
 ## The code here are for the tester
