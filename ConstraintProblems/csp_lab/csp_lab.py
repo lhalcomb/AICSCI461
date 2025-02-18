@@ -53,9 +53,27 @@ def forward_checking_prop_singleton(state, verbose=False):
     for var in state.get_all_variables():
         if var.domain_size() == 1:
             singleton_domain_queue.put(var)
+    
+    while not singleton_domain_queue.empty():
+        X = singleton_domain_queue.get()
+        visited_variables.add(X)
 
-   
+        X_value = X.get_domain()[0]
 
+        for constraint in state.get_constraints_by_name(X.get_name()):
+            Y = state.get_variable_by_name(constraint.get_variable_j_name())
+
+            for y_value in Y.get_domain():
+
+                if not constraint.check(state, X_value, y_value):
+                    Y.reduce_domain(y_value)
+                    if Y.domain_size() == 0:
+                        return False
+
+            if Y.domain_size() == 1 and Y not in visited_variables:
+                singleton_domain_queue.put(Y)
+
+    return True
 
 ## The code here are for the tester
 ## Do not change.
