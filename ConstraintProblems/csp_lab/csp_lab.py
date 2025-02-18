@@ -59,16 +59,12 @@ def forward_checking_prop_singleton(state, verbose=False):
         visited_variables.add(var.get_name())
         x_value = var.get_assigned_value()
 
-        if x_value is None:
-            continue
-
         for constraint in state.get_constraints_by_name(var.get_name()):
             y = state.get_variable_by_name(constraint.get_variable_j_name())
             if y.is_assigned() or y.get_name() in visited_variables:
                 continue
             for y_value in y.get_domain():
-                if y_value is None:
-                    continue
+    
                 if not constraint.check(state, x_value, y_value):
                     y.reduce_domain(y_value)
                     if y.domain_size() == 0:
