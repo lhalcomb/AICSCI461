@@ -69,8 +69,11 @@ def forward_checking_prop_singleton(state, verbose=False):
             for y_value in y.get_domain():
                 if y_value is None:
                     continue
+                print(f"Before Pruning: {y.get_name()} domain: {y.get_domain()}")
+                print(constraint.check(state, x_value, y_value))
                 if not constraint.check(state, x_value, y_value):
                     y.reduce_domain(y_value)
+                    print(f"After Pruning: {y.get_name()} domain: {y.get_domain()}")
                     if y.domain_size() == 0:
                         return False
                     if y.domain_size() == 1 and y.get_name() not in visited_variables:

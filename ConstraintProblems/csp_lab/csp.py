@@ -97,8 +97,7 @@ class BinaryConstraint:
     
         # if values of i or j are not set, we really can't check
         # this constraint.  So the check passes.
-        return True
-
+    
     def __repr__(self):
         return self.__str__()
     
