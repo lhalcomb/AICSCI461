@@ -7,6 +7,7 @@ Date: Thursday, November 4th
 import sys
 from csp import CSP, Variable, BinaryConstraint, solve_csp_problem, \
     basic_constraint_checker
+from csp_lab import forward_checking_prop_singleton
 
 #"Diabolical" sudoku. default test board . Specify boards in this format
 grid = []
