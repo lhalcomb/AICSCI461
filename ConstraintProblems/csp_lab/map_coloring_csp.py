@@ -5,6 +5,7 @@ Implementation of the Map coloring problem from 2006 Quiz 2
 import sys
 from csp import CSP, Variable, BinaryConstraint, solve_csp_problem, \
     basic_constraint_checker
+import csp_lab as lab4
 
 def map_coloring_csp_problem():
     constraints = []
@@ -71,13 +72,12 @@ if __name__ == "__main__":
     if checker_type == "dfs":
         checker = basic_constraint_checker
     elif checker_type == "fc":
-        import lab4
+     
         checker = lab4.forward_checking
     elif checker_type == "fcps":
-        import lab4
+        
         checker = lab4.forward_checking_prop_singleton
     else:
-        import lab4
         checker = lab4.forward_checking_prop_singleton
 
     solve_csp_problem(map_coloring_csp_problem, checker, verbose=True)
