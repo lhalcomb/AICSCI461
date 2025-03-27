@@ -15,7 +15,7 @@ class Controller:
         self.active_faction: Faction = None
         self.agent:Agent = None
         self.planner: Planner = None
-
+ 
     def setup(self, current_faction: Faction):
         self.model = WorldModel(current_faction.systems, config.goal_list, [])
         self.active_faction = current_faction

@@ -8,6 +8,8 @@ NOTE: in AI literature, discontent (what we call value) is often called "energy 
 """
 
 import copy
+import heapq
+
 
 class Planner:
 
@@ -16,7 +18,7 @@ class Planner:
 
     def make_plan(self, current_goal):
         pass
-
+ 
     # Chooses a goal to pursue based on
     def choose_goal(self):
         # check for empty list
@@ -35,6 +37,7 @@ class SimplePlanner(Planner):
 
     def make_plan(self, current_goal):
         plan = [self.model.action_list[0]]
+        print(plan[0].name, plan[0].cost, plan[0].requires, plan[0].results)
         #TODO: check requirements and cost
         return plan
 

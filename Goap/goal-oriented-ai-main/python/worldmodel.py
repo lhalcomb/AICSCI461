@@ -26,7 +26,7 @@ class WorldModel:
 
     @property
     def num_actions(self):
-        return len (self.action_list)
+        return len(self.action_list)
 
     # return the value of the named variable
     def get_state(self, var_name):
@@ -43,7 +43,8 @@ class WorldModel:
 
     # select the next action that applies
     def next_action(self):
-        self.current_action_index+=1
+        self.current_action_index += 1
+        
         for a in self.action_list:
             if not a.requires:
                 return a

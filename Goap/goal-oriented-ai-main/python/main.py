@@ -23,6 +23,6 @@ if __name__ == '__main__':
     faction_controller = Controller()
     faction_controller.setup(faction)
     faction_controller.run()
-#    goap_main()
+    
     print ('Simulation complete')
-
+ 
