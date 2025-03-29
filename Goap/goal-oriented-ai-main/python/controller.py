@@ -9,7 +9,7 @@ from faction import Faction
 from action import Action
 import config
 
-class Controller:
+class Controller: 
     def __init__(self):
         self.model: WorldModel = None
         self.active_faction: Faction = None

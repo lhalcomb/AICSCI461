@@ -15,12 +15,11 @@ from action import Action
 class WorldModel:
     def __init__(self, sector_state, goal_list=[], action_list=[], depth=0):
         self.systems = sector_state
-        self.goal_list = []
-        for curr_goal in goal_list:
-             self.goal_list.append(Goal(curr_goal))
+        self.goal_list = [Goal(curr_goal) for curr_goal in goal_list]
+        
         self.action_list = action_list
         self.id = self.generate_id()
-        self.current_state = None
+        self.current_state = {}  # current state of the world model
         self.current_depth = depth
         self.current_action_index =  -1
 

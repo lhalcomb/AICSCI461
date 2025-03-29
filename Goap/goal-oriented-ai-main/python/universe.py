@@ -37,7 +37,7 @@ class System:
         self.status = status
         self.planets = planets
         self.habitable_planets = sum([planet.habitable for planet in planets])
-        self.neighbors =[]
+        self.neighbors = []
 
     def total_resources(self):
         total = 0

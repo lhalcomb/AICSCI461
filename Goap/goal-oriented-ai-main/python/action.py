@@ -38,4 +38,15 @@ class Action:
     @property
     def get_goal_change(self):
         return self.cost
+    
+    def can_execute(self, state):
+        """Check if action preconditions are satisfied."""
+        return all(state.get(cond, False) for cond in self.requires)
+
+    def execute(self, state):
+        """Apply the action and update the state."""
+        for satisfy in self.results:
+            state[satisfy] = True  # Mark that the action has been satisfied
+        state['resources'] -= self.cost  # Example of cost deduction
+        return state
 
