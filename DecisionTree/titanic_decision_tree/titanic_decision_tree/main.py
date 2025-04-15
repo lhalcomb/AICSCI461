@@ -40,20 +40,25 @@ class MainGui:
         # TODO: handle the other events
         elif button == "Build Decision Tree":
             print ("Building decision tree")
+            self.dt.train(self.data, self.attributes)
 
 
     # read the comma-separated data file and store the contents
     def read_file(self, fileName):
         self.data = []
-        print ("Reading File" + fileName)
+        print ("Reading File " + fileName)
         with open(fileName) as csvfile:
             reader = csv.DictReader(csvfile)
+            #print(reader)
             for row in reader:
-                print (row)
+                #print (row)
                 # TODO: do something meaningful with the data
+                self.data.append(row)
+
 
 
 # Start the GUI if this is the main script
 if __name__ == '__main__':
     app = MainGui()
-    app.start()
+    #app.start()
+    app.read_file("titanic_train.csv")

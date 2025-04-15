@@ -2,6 +2,9 @@
 
 # helper class for decision tree nodes
 import copy
+
+import numpy as np
+from math import e, log
 class DecisionNode:
 
     def __init__(self):
@@ -63,20 +66,77 @@ class DecisionTree:
 
 
             # TODO: create the child nodes
-            for set in best_sets:
-                print ("Create child node for set " + set)
+            for subset_key, subset_examples in best_sets.items():
+                # create a new child node
+                child_node = DecisionNode()
+                # add the child node to the decision node
+                decision_node.child_nodes.append((subset_key, child_node))
+                # recursively call make_tree on the child node with the subset of examples and attributes
+                self.make_tree(subset_examples , new_attributes, child_node)
 
     # Calculate the information entropy of an example set
     # TODO: implement
-    def entropy(self, examples):
-        return 0
+    def entropy(self, examples: list[dict]) -> float:
+
+        n_examples: int = len(examples)
+
+        if n_examples <= 1:
+            return 0.0
+        
+        value, counts = np.unique(examples, return_counts=True) 
+        probabilities = counts / n_examples
+        n_classes = np.count_nonzero(probabilities)
+        if n_classes <= 1:
+            return 0.0
+        entropy = 0.0
+        base = e
+        for i in probabilities:
+            entropy -= i * log(i, base)
+
+        return entropy
 
     # Divide a set of examples based on an attribute value
     # TODO: implement
-    def split_by_attribute(self, examples, attribute):
+    def split_by_attribute(self, examples: list, attribute) ->  dict:
         print ("Splitting on " + attribute)
+
+        sets = {}
+        for example in examples:
+
+            key = example[attribute]
+
+
+            if key not in sets:
+                sets[key] = []
+            # add the example to the set for this attribute value
+            sets[key].append(example)
+        
+        #return list(sets.values())
+        return sets
+
+
 
     # Find the entropy of a list of sets
     # TODO: implement
     def entropy_of_sets(self, sets, count):
-        return 0
+        overall_entropy = 0.0
+
+        for subset in sets:
+            subset_entropy = self.entropy(subset)
+            subset_count = len(subset)
+            overall_entropy += (subset_count / count) * subset_entropy
+
+        return overall_entropy
+
+    
+
+
+if __name__ == '__main__':
+    
+
+    #test entropy function
+    dt = DecisionTree()
+    test_set = [1, 0, 1, 1, 0, 0]
+    print(dt.entropy(test_set))
+
+    
