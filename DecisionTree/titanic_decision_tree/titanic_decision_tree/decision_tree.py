@@ -4,7 +4,7 @@
 import copy
 
 import numpy as np
-from math import e, log
+from math import log
 class DecisionNode:
 
     def __init__(self):
@@ -123,7 +123,7 @@ class DecisionTree:
 
             # set the decision node to this attribute
             decision_node.test_value = best_split_attribute
-            print(f"Best attribute: {best_split_attribute} with information gain: {best_information_gain}")
+            #print(f"Best attribute: {best_split_attribute} with information gain: {best_information_gain}")
             # remove the best attribute from the set we will pass down the tree
             new_attributes = copy.deepcopy(list(attributes))
             
@@ -132,14 +132,15 @@ class DecisionTree:
 
 
             # TODO: create the child nodes
-            for subset_key, subset_examples in best_sets.items():
-                # create a new child node
-                child_node = DecisionNode()
-                # add the child node to the decision node
-                decision_node.child_nodes[subset_key] = child_node
+            if best_sets is not None:
+                for subset_key, subset_examples in best_sets.items():
+                    # create a new child node
+                    child_node = DecisionNode()
+                    # add the child node to the decision node
+                    decision_node.child_nodes[subset_key] = child_node
 
-                # recursively call make_tree on the child node with the subset of examples and attributes
-                self.make_tree(subset_examples , new_attributes, child_node)
+                    # recursively call make_tree on the child node with the subset of examples and attributes
+                    self.make_tree(subset_examples , new_attributes, child_node)
             
             decision_node.test_attributes = best_split_attribute
             
@@ -183,7 +184,7 @@ class DecisionTree:
     # Divide a set of examples based on an attribute value
     # TODO: implement
     def split_by_attribute(self, examples: list, attribute: str) ->  dict:
-        print ("Splitting on " + attribute)
+        #print ("Splitting on " + attribute)
         sets = {}
 
         for example in examples:
@@ -219,6 +220,44 @@ class DecisionTree:
         else:
             print(f"{indent}Action: {node.action}")
             return
+        
+    def best_initial_decision(self):
+        """
+        Analyzes the root node's immediate decisions and returns the one with the highest survival rate.
+        """
+        root = self.root
+        if root.test_attributes is None:
+            return None  # tree wasn't trained properly
+
+        best_value = None
+        best_survival_rate = 0.0
+
+        for attr_value, child in root.child_nodes.items():
+            total, survived = self.count_examples(child)
+            if total > 0:
+                survival_rate = survived / total
+                print(f"{root.test_attributes} = {attr_value}: Survival rate = {survival_rate:.2f}")
+                if survival_rate > best_survival_rate:
+                    best_survival_rate = survival_rate
+                    best_value = attr_value
+
+        return (root.test_attributes, best_value, best_survival_rate)
+    
+    def count_examples(self, node: DecisionNode):
+        """
+        Count the total number of examples and the number of survivors in a given node.
+        """
+        if node.action is not None:
+            return 1, 1 if node.action == '1' else 0
+
+        total = 0
+        survived = 0
+        for child in node.child_nodes.values():
+            child_total, child_survived = self.count_examples(child)
+            total += child_total
+            survived += child_survived
+
+        return total, survived
 
     
 if __name__ == '__main__':

@@ -43,13 +43,15 @@ class MainGui:
             self.attributes = list(self.data[0].keys())
             self.attributes.remove("survived")
             self.dt.train(self.data, self.attributes)
-        
+            
         elif button == "Print Tree":
             print ("Printing decision tree")
             self.dt.print_tree(self.dt.root)
+            self.dt.print_root()
         elif button == "Test Decision Tree":
             print ("Testing decision tree")
             self.dt.test(self.data)
+            self.dt.best_initial_decision()
 
 
     # read the comma-separated data file and store the contents
